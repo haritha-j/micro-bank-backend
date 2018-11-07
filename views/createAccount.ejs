@@ -1,0 +1,44 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="css/account.css"/>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"/>
+
+  </head>
+  <body>
+    <section>
+      <div class="signup__container">
+      <div class="container__child signup__form">
+        <form method='POST' action='/createAccount'>
+          <div class="form-group">
+            <label for="type_id">Account type Id</label>
+            <input class="form-control" type="text" name="type_id" id="type_id" placeholder="000000000" required />
+          </div>
+          <div class="form-group">
+            <label for="agent_id">Agent ID</label>
+            <input class="form-control" type="text" name="agent_id" id="agent_id" placeholder="John Doe" required />
+          </div>
+          <div class="form-group">
+            <label for="account_no">Account Number</label>
+            <input class="form-control" type="text" name="account_no" id="account_no" placeholder="000000" required />
+          </div>
+          <div class="form-group">
+            <label for="balance">Balance</label>
+            <input class="form-control" type="text" name="balance" id="balance" placeholder="000" required />
+          </div>
+          <div class="form-group">
+            <label for="owner_id">Customer Id</label>
+            <input class="form-control" type="text" name="owner_id" id="owner_id" placeholder="00000000" required />
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input class="form-control" type="text" name="password" id="password" placeholder="" required />
+          </div>
+          <div class="m-t-lg">
+            <ul class="list-inline">
+              <li>
+                <input class="btn btn--form" type="submit" value="Add Account" />
+              </li>
+              <li>
+    </section>
+  </body>
+</html>
