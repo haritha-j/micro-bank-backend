@@ -1,3 +1,5 @@
+//all mobile agent functions (i.e. updating user transactions) are handled through this route.
+
 var express = require('express');
 var router = express.Router();
 

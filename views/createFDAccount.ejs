@@ -1,0 +1,40 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="css/account.css"/>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"/>
+
+  </head>
+  <body>
+    <section>
+      <div class="signup__container">
+      <div class="container__child signup__form">
+        <form method='POST' action='/createFDAccount'>
+          <div class="form-group">
+            <label for="plan_id">plan Id</label>
+            <input class="form-control" type="text" name="plan_id" id="plan_id" placeholder="000000000" required />
+          </div>
+          <div class="form-group">
+            <label for="account_no">Account Number</label>
+            <input class="form-control" type="text" name="account_no" id="account_no" placeholder="000000" required />
+          </div>
+          <div class="form-group">
+            <label for="balance">Balance</label>
+            <input class="form-control" type="text" name="balance" id="balance" placeholder="000" required />
+          </div>
+          <div class="form-group">
+            <label for="savings_account_no">Savings Account number</label>
+            <input class="form-control" type="text" name="savings_account_no" id="savings_account_no" placeholder="00000000" required />
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input class="form-control" type="text" name="password" id="password" placeholder="" required />
+          </div>
+          <div class="m-t-lg">
+            <ul class="list-inline">
+              <li>
+                <input class="btn btn--form" type="submit" value="Add Account" />
+              </li>
+              <li>
+    </section>
+  </body>
+</html>
