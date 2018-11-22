@@ -6,9 +6,10 @@ INSERT INTO employee VALUES ('emp1','mobile agent','chris','patt', 'male'),('emp
 
 INSERT INTO mobile_agent VALUES ('agent1','emp1'),('agent2','emp4'),('agent3','emp5'),('agent4','emp6');
 
-INSERT INTO customer VALUES ('ahkam','naseek','962371932v','male','1996-08-24','cust1',23,'335 egoda uyana, moratuwa'),('alan','walker','902371932v','male','1990-08-24','cust2',28,'02 egoda uyana, colombo'),('ruvan','pathirana','932371932v','male','1993-08-24','cust3',26,'02 egoda uyana, gampaha'),('akila','dananjaya','922371932v','male','1992-08-24','cust4',25,'9 egoda uyana, kalutara'),('dulaj','sameera','892371932v','male','1989-08-24','cust5',25,'66 egoda uyana, matara');
 
-INSERT INTO account VALUES ('ch@123',84365289116,1203.56,'2006-02-14 22:04:36', 'cust1', 'agent1','hd#74537jdg83'),('te@123',23365280016,234657.00,'2007-04-14 6:04:36', 'cust2','agent1','ty74537jdg83'),('ch@123',56365289116,3456.24,'2016-02-14 22:04:36','cust3', 'agent2','hp774537jdg83'),('ad@123',78365289116,1203.56,'2009-02-14 12:04:36','cust4', 'agent3','iu874537jdg83'),('se@123',1035289116,45997.24,'2016-02-14 22:04:36','cust5', 'agent2','vrt74537jdg83'),('ad@123',40365289116,3456.56,'2014-02-14 03:04:11','cust3','agent4','gbv74537jdg83');
+INSERT INTO account VALUES ('ch@123',84365289116,1203.56,'2006-02-14 22:04:36','agent1','hd#74537jdg83'),('te@123',23365280016,234657.00,'2007-04-14 6:04:36','agent1','ty74537jdg83'),('ch@123',56365289116,3456.24,'2016-02-14 22:04:36','agent2','hp774537jdg83'),('ad@123',78365289116,1203.56,'2009-02-14 12:04:36','agent3','iu874537jdg83'),('se@123',1035289116,45997.24,'2016-02-14 22:04:36','agent2','vrt74537jdg83'),('ad@123',40365289116,3456.56,'2014-02-14 03:04:11','agent4','gbv74537jdg83');
+
+INSERT INTO customer VALUES ('ahkam','naseek','962371932v','male','1996-08-24','cust1',23,'335 egoda uyana, moratuwa'),('alan','walker','902371932v','male','1990-08-24','cust2',28,'02 egoda uyana, colombo'),('ruvan','pathirana','932371932v','male','1993-08-24','cust3',26,'02 egoda uyana, gampaha'),('akila','dananjaya','922371932v','male','1992-08-24','cust4',25,'9 egoda uyana, kalutara'),('dulaj','sameera','892371932v','male','1989-08-24','cust5',25,'66 egoda uyana, matara');
 
 
 INSERT INTO customer_phone VALUES ('cust1',0776040385),('cust2',0774525652),('cust3',0755349046),('cust4',0726040385),('cust5',0766040385);

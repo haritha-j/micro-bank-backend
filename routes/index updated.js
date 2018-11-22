@@ -45,7 +45,7 @@ router.post('/createAccount', function(req, res, next){
 /* Begin transaction to add data to db*/
 connection.beginTransaction(function(err) {
   if (err) { throw err; }
-  connection.query('INSERT INTO account (type_id, account_no, balance, opening_date, agent_id, password) VALUES("'+newAcc.type_id+'", NULL, '+newAcc.balance+',  NOW(), "'+newAcc.agent_id+'", "'+newAcc.password+'");', function(err, result) {
+  connection.query('INSERT INTO account (type_id, account_no, balance, opening_date, agent_id, password) VALUES("'+newAcc.type_id+'", 32, '+newAcc.balance+',  NOW(), "'+newAcc.agent_id+'", "'+newAcc.password+'");', function(err, result) {
     if (err) { 
       connection.rollback(function() {
         throw err;
@@ -55,7 +55,7 @@ connection.beginTransaction(function(err) {
       console.log(result)
     }
  //add owner info to database
-    connection.query('INSERT INTO owner_info VALUES("'+newAcc.owner_id+'", '+result.insertId+')'
+    connection.query('INSERT INTO owner_info VALUES("'+newAcc.owner_id+'", '+newAcc.account_no+')'
     , function(err, result) {
       if (err) { 
         connection.rollback(function() {

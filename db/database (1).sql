@@ -15,9 +15,9 @@ CREATE TABLE account_type_info (
 CREATE TABLE employee ( 
  employee_id VARCHAR(10) NOT NULL ,
   employee_type varchar(45) not null,
-  employee_name varchar(45) not null,
-  gender VARCHAR(45) NOT NULL,
-  phone VARCHAR(45) NOT NULL, 
+  first_name varchar(45) not null,
+  last_name varchar(45) not null,
+  gender ENUM('male','female') DEFAULT 'male',
   PRIMARY KEY  (employee_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -46,19 +46,25 @@ CREATE TABLE customer (
  last_name VARCHAR(10) NOT NULL,
   nic VARCHAR(12) NOT NULL,
   gender ENUM('male','female') DEFAULT 'male',
-  dob DATETIME NOT NULL,
+  dob DATE NOT NULL,
   customer_id VARCHAR(10) NOT NULL, 
   age tinyint NOT NULL, 
   address VARCHAR(100) NOT NULL,
-  phone_no int UNSIGNED NOT NULL,
   PRIMARY KEY  (customer_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE phone (
+CREATE TABLE Customer_phone (
   customer_id VARCHAR(10) NOT NULL,
   phone int NOT NULL, 
   PRIMARY KEY  (customer_id,phone),
   FOREIGN KEY (customer_id) REFERENCES customer (customer_id) ON DELETE RESTRICT ON UPDATE CASCADE
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE employee_phone (
+  employee_id VARCHAR(10) NOT NULL,
+  phone int NOT NULL, 
+  PRIMARY KEY  (employee_id,phone),
+  FOREIGN KEY (employee_id) REFERENCES employee (employee_id) ON DELETE RESTRICT ON UPDATE CASCADE
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE owner_info (
@@ -91,12 +97,12 @@ CREATE TABLE fd_account (
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE transaction ( 
- transaction_id SMALLINT UNSIGNED NOT NULL,
+ transaction_id VARCHAR(10) NOT NULL, 
   account_no bigint NOT NULL AUTO_INCREMENT ,
   credit_debit ENUM('credit','debit') DEFAULT 'debit',
   date_time DATETIME NOT NULL,
   amount float NOT NULL, 
-  type_ VARCHAR(45) NOT NULL, 
+  type_ ENUM('special','not_special') DEFAULT 'not_special', 
   agent_id VARCHAR(10) NOT NULL,
   PRIMARY KEY  (transaction_id),
   FOREIGN KEY (account_no) REFERENCES account (account_no) ON DELETE RESTRICT ON UPDATE CASCADE,
