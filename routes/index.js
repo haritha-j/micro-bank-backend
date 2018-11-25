@@ -1,5 +1,10 @@
 //all admin related functions such as creating new accounts are handled in this route.
 
+//todo - check minimum balance depending on account type before creating account
+//todo : check age limit for type of account
+//todo : add form to add customer to database
+//todo : add ability to deactivate account
+
 var express = require('express');
 var router = express.Router();
 var mysql = require("mysql");
@@ -29,9 +34,7 @@ router.get('/createAccount', function(req, res, next) {
   res.render('createAccount', { title: 'Create New Account' });
 });
 
-//to do - check minimum balance depending on account type before creating account
-//todo : auto increment account no
-//todo : check age limit for type of account
+
 
 //handle account creation
 router.post('/createAccount', function(req, res, next){
@@ -45,17 +48,19 @@ router.post('/createAccount', function(req, res, next){
 /* Begin transaction to add data to db*/
 connection.beginTransaction(function(err) {
   if (err) { throw err; }
-  connection.query('INSERT INTO account (type_id, account_no, balance, opening_date, agent_id, password) VALUES("'+newAcc.type_id+'", NULL, '+newAcc.balance+',  NOW(), "'+newAcc.agent_id+'", "'+newAcc.password+'");', function(err, result) {
+  connection.query('INSERT INTO account (type_id, account_no, balance, opening_date, agent_id, password) VALUES(?, NULL, ?,  NOW(), ?, ?);',[newAcc.type_id, newAcc.balance, newAcc.agent_id, newAcc.password ], function(err, result) {
     if (err) { 
       connection.rollback(function() {
-        throw err;
+        console.log(err);
+        res.render('invalid');
+        //throw err;
       });
     }
     else{
       console.log(result)
-    }
+    
  //add owner info to database
-    connection.query('INSERT INTO owner_info VALUES("'+newAcc.owner_id+'", '+result.insertId+')'
+    connection.query('INSERT INTO owner_info VALUES(?, ?)', [newAcc.owner_id, result.insertId]
     , function(err, result) {
       if (err) { 
         connection.rollback(function() {
@@ -72,6 +77,7 @@ connection.beginTransaction(function(err) {
         res.render('accountCreated',  { title: 'Account Created' });
       });
     });
+  }
   });
 });
 /* End transaction */
@@ -96,14 +102,14 @@ router.post('/createFDAccount', function(req, res, next){
   console.log(req.body);
 
   //check if passwords match
-  connection.query('SELECT password FROM account WHERE account_no = '+newAcc.savings_account_no+';', function (err, rows, fields){
+  connection.query('SELECT password FROM account WHERE account_no = ?;', [newAcc.savings_account_no], function (err, rows, fields){
     if (err) throw err
     else{
       savingsPass = rows[0].password;
       console.log(savingsPass);
       if (savingsPass == newAcc.savings_password){
         //create new FD record
-        connection.query('INSERT INTO FD_account VALUES('+newAcc.account_no+', '+newAcc.balance+',  NOW(), '+newAcc.savings_account_no+', "'+newAcc.plan_id+'");', function (err, rows, fields) {
+        connection.query('INSERT INTO FD_account VALUES(NULL, ?,  NOW(), ?, ?);', [newAcc.balance, newAcc.savings_account_no, newAcc.plan_id], function (err, rows, fields) {
           if (err) throw err
       
           console.log('FD RECORD ADDED');
