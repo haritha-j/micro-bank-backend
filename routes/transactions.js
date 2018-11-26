@@ -30,6 +30,7 @@ connection.connect();
 /* post transaction sync */
 router.post('/', function(req, res, next) {
   console.log(req.body);
+  console.log(req);
   for (var i=0;  i<req.body.length; i++){
     processTransaction(req.body[i]);
   }
@@ -44,6 +45,21 @@ router.post('/', function(req, res, next) {
 //todo: extra query into relevant mobile agent
 router.post('/special', function(req, res, next) {
   console.log(req.body[0]);
+  connection.query('select checkBalance(?,?);', [req.body[0].account_no, req.body[0].amount], function(err, rows, fields){
+    if (err) throw err
+    console.log(rows[0][fields[0].name])
+    if (rows[0][fields[0].name] == 1){
+      connection.query('call specialWithdraw(?,?,?);', [req.body[0].account_no, req.body[0].amount, "agent"+req.body[0].agent_Id], function(err, rows, fields) {
+        if (err) throw err
+        console.log('special transaction processed');
+      });
+    } else{
+      res.send('error')
+    }
+  })
+    
+    
+  })
   connection.query('call specialWithdraw(?,?,?);', [req.body[0].account_no, req.body[0].amount, "agent"+req.body[0].agent_Id], function(err, rows, fields) {
     if (err) throw err
     console.log('special transaction processed');
@@ -92,3 +108,15 @@ connection.query('call specialWithdraw(?,?,?);', [req1.body[0].account_no, req1.
   if (err) throw err
   console.log('speciall transaction processed');
 }); */
+
+
+connection.query('select checkBalance(?,?);', [req1.body[0].account_no, req1.body[0].amount], function(err, rows, fields){
+  if (err) throw err
+  console.log(rows[0][fields[0].name])
+  if (rows[0][fields[0].name] == 1){
+    connection.query('call specialWithdraw(?,?,?);', [req1.body[0].account_no, req1.body[0].amount, "agent"+req1.body[0].agent_Id], function(err, rows, fields) {
+      if (err) throw err
+      console.log('special transaction processed');
+    });
+  }
+})
