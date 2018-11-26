@@ -10,7 +10,7 @@
 -- calculate fd interest
 
 -- the null transaction id wont work as long as autoincrement is disabled
-drop PROCEDURE addInterestToAccount;
+
 DELIMITER //
 
 create procedure addInterestToAccount(in account_number bigint(20))
@@ -24,13 +24,13 @@ BEGIN
     select interest_rate from account_type_info where type_id = account_type into rate;
     set interest = interest*rate/1200;
 
-    insert into transaction (transaction_id, account_no, credit_debit, date_time, amount, type_, agent_id, is_fee)  values (3462, account_number, 'debit', now(), interest, 'not_special', null, false);
+    insert into transaction (transaction_id, account_no, credit_debit, date_time, amount, type_, agent_id, is_fee)  values (null, account_number, 'debit', now(), interest, 'not_special', null, false);
     update account set balance = balance + interest where account_no = account_number;
     commit;
 END //
 DELIMITER ;
 
-call addInterestToAccount(84365289118);
+call addInterestToAccount(222);
 
 DELIMITER //
 create PROCEDURE specialWithdraw(in account_number bigint(20), in withdrawal float, in agentid varchar(10))
@@ -49,7 +49,7 @@ END //
 DELIMITER ;
 
 
-call specialWithdraw(84365289118, 30, 'agent1');
+call specialWithdraw(222, 30, 'agent1');
 
 drop PROCEDURE withdraw;
 DELIMITER //
@@ -63,7 +63,7 @@ BEGIN
 END //
 DELIMITER ;
 
-call withdraw(84365289118, 30, 'agent1');
+call withdraw(222, 30, 'agent1');
 
 
 DELIMITER //
@@ -95,7 +95,7 @@ BEGIN
 end //
 delimiter ;
 
-select checkbalance(84365289118, 30);
+select checkbalance(222, 30);
 
 
 DELIMITER //
@@ -114,7 +114,7 @@ BEGIN
     select interest_rate from fd_plan where plan_id = account_type into rate;
     set interest = interest*rate/1200;
 
-    insert into transaction (transaction_id, account_no, credit_debit, date_time, amount, type_, agent_id, is_fee)  values (34692, savings_account, 'debit', now(), interest, 'not_special', null, false);
+    insert into transaction (transaction_id, account_no, credit_debit, date_time, amount, type_, agent_id, is_fee)  values (null, savings_account, 'debit', now(), interest, 'not_special', null, false);
     update account set balance = balance + interest where account_no = savings_account;
     commit;
 END //
