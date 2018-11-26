@@ -26,10 +26,10 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var transactionRouter = require('./routes/transactions');
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/transactions', transactionRouter);
 
 
 
