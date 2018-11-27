@@ -43,6 +43,7 @@ BEGIN
     -- record fee
     insert into transaction (transaction_id, account_no, credit_debit, date_time, amount, type_, agent_id, is_fee)  values (null, account_number, 'credit', now(), 50, 'not_special', null, true);
     update account set balance = balance - 50 where account_no = account_number;
+    select account_no, balance from account where account_no = account_number;
    
     commit;
 END //
@@ -51,7 +52,7 @@ DELIMITER ;
 
 call specialWithdraw(222, 30, 'agent1');
 
-drop PROCEDURE withdraw;
+
 DELIMITER //
 create PROCEDURE withdraw(in account_number bigint(20), in withdrawal float, in agentid varchar(10))
 BEGIN
@@ -121,3 +122,11 @@ END //
 DELIMITER ;
 
 call addFDInterestToAccount(90842311);
+
+DELIMITER //
+
+create event interest_calc
+on schedule at current_timestamp
+DO
+    
+DELIMITER ;
