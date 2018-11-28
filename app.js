@@ -30,8 +30,14 @@ app.use(bodyParser.json());
 var indexRouter = require('./routes/index');
 var transactionRouter = require('./routes/transactions');
 
+var reportRouter = require('./routes/report');
+var viewRouter = require('./routes/view');
+
 app.use('/', indexRouter);
+
 app.use('/transactions', transactionRouter);
+app.use('/views',viewRouter);
+app.use('/accountreport',reportRouter);
 
 app.options("/*", function(req, res, next){
   res.header('Access-Control-Allow-Origin', '*');

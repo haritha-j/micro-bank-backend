@@ -1,0 +1,33 @@
+
+<table style="width:100%">
+        <tr>
+          <th>transaction_id</th>
+          <th>account no</th>
+          <th>credit_debit</th> 
+          <th>date_time</th>
+          <th>amount</th>
+          <th>type_</th>
+        </tr>
+        <% for(var i=0; i<JSON.parse(x).length; i++) {%>
+                <tr>
+                  <td>
+                        <%=JSON.stringify(JSON.parse(x)[i].transaction_id)%>
+                  </td>
+                  <td>
+                        <%=JSON.stringify(JSON.parse(x)[i].account_no)%>
+                  </td>
+                  <td>
+                        <%=JSON.stringify(JSON.parse(x)[i].credit_debit)%>
+                    </td>
+                    <td>
+                            <%=JSON.stringify(JSON.parse(x)[i].date_time)%>
+                      </td>
+                      <td>
+                            <%=JSON.stringify(JSON.parse(x)[i].amount)%>
+                      </td>
+                      <td>
+                            <%=JSON.stringify(JSON.parse(x)[i].type_)%>
+                      </td>
+                </tr>
+             <% } %>
+            </table>

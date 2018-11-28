@@ -84,7 +84,7 @@ router.post('/createAccount',auth, function(req, res, next){
 /* Begin transaction to add data to db*/
 connection.beginTransaction(function(err) {
   if (err) { throw err; }
-  connection.query('INSERT INTO account (type_id, account_no, balance, opening_date, agent_id, password) VALUES(?, NULL, ?,  NOW(), ?, ?);',[newAcc.type_id, newAcc.balance, newAcc.agent_id, newAcc.password ], function(err, result) {
+  connection.query('INSERT INTO account (type_id, account_no, balance, opening_date, agent_id, password) VALUES(?, NULL, ?,  NOW(), ?, MD5(?));',[newAcc.type_id, newAcc.balance, newAcc.agent_id, newAcc.password ], function(err, result) {
     if (err) { 
       connection.rollback(function() {
         console.log(err);
@@ -143,7 +143,13 @@ router.post('/createFDAccount', function(req, res, next){
     else{
       savingsPass = rows[0].password;
       console.log(savingsPass);
-      if (savingsPass == newAcc.savings_password){
+      connection.query('SELECT MD5(?);', [newAcc.savings_password], function (err, rows, fields){
+        if (err) throw err
+        else{
+          console.log(rows[0]);
+          console.log(rows[0][fields[0].name]);
+        
+      if (savingsPass == rows[0][fields[0].name]){
         //create new FD record
         connection.query('INSERT INTO FD_account VALUES(NULL, ?,  NOW(), ?, ?);', [newAcc.balance, newAcc.savings_account_no, newAcc.plan_id], function (err, rows, fields) {
           if (err) throw err
@@ -157,6 +163,7 @@ router.post('/createFDAccount', function(req, res, next){
         console.log("Passwords dont match");
         res.render('accountCreated',  { title: 'Password is incorrect' });
       }
+    }});
     }
   });
 

@@ -133,11 +133,14 @@ router.post('/special', function(req, res, next) {
       connection.query('call specialWithdraw(?,?,?);', [req.body[0].account_no, req.body[0].amount, req.body[0].agent_Id], function(err, rows, fields) {
         if (err) throw err
         console.log('special transaction processed');
+        rows[0].push({cash_error: false});
         rowsJSON = JSON.stringify(rows[0]);
+        
+        console.log(rowsJSON)
       res.send(rowsJSON);
       });
     } else{
-      res.send([{cash_error: true}]);
+      res.send([{account_no: 0, 'balance':0}, {cash_error: true}]);
     }
   })
   });
