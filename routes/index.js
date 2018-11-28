@@ -1,23 +1,59 @@
 //all admin related functions such as creating new accounts are handled in this route.
 
-//todo - check minimum balance depending on account type before creating account
-//todo : check age limit for type of account
-//todo : add form to add customer to database
-//todo : add ability to deactivate account
+
 
 var express = require('express');
 var router = express.Router();
 var mysql = require("mysql");
+var session = require('express-session');
 
 //DATABASE CONNECTION
 var connection = mysql.createConnection({
   host : 'localhost',
-  user : 'dbuser',
-  password : 'password',
+  user : 'admin',
+  password : 'admin@123',
   database : 'database_proj'
 });
 
 connection.connect();
+
+
+//authentication
+router.use(session({
+  secret: '2C44-4D44-WppQ38S',
+  resave: true,
+  saveUninitialized: true
+}));
+
+// Authentication and Authorization Middleware
+var auth = function(req, res, next) {
+  if (req.session && req.session.user === "admin" && req.session.admin)
+    return next();
+  else
+    return res.sendStatus(401);
+};
+
+// Login endpoint
+router.get('/login', function (req, res) {
+  if (!req.query.username || !req.query.password) {
+    res.send('login failed');    
+  } else if(req.query.username === "admin" && req.query.password === "adminpassword") {
+    req.session.user = "admin";
+    req.session.admin = true;
+    res.send("login success!");
+  }
+});
+ 
+// Logout endpoint
+router.get('/logout', function (req, res) {
+  req.session.destroy();
+  res.send("logout success!");
+});
+ 
+// Get content endpoint
+router.get('/content', auth, function (req, res) {
+    res.send("You can only see this after you've logged in.");
+});
 
 
 /* GET home page. */
@@ -30,14 +66,14 @@ router.get('/', function(req, res, next) {
 //Create new account
 
 //get create account page
-router.get('/createAccount', function(req, res, next) {
+router.get('/createAccount', auth, function(req, res, next) {
   res.render('createAccount', { title: 'Create New Account' });
 });
 
 
 
 //handle account creation
-router.post('/createAccount', function(req, res, next){
+router.post('/createAccount',auth, function(req, res, next){
   //const x = req.body.username;
   var newAcc = {owner_id: req.body.owner_id, type_id: req.body.type_id, account_no: req.body.account_no, balance: req.body.balance, agent_id: req.body.agent_id, password: req.body.password};
   console.log(req.body);
@@ -88,7 +124,7 @@ connection.beginTransaction(function(err) {
 //create new FD account
 
 //get create FD account page
-router.get('/createFDAccount', function(req, res, next) {
+router.get('/createFDAccount', auth, function(req, res, next) {
   res.render('createFDAccount', { title: 'Create New Fixed Deposit Account' });
 });
 

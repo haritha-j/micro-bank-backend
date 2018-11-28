@@ -5,8 +5,8 @@
 -- chargeFee from account
 -- add interest to account
 
---required functions
---calculate interest
+-- required functions
+-- calculate interest
 -- calculate fd interest
 
 -- the null transaction id wont work as long as autoincrement is disabled
@@ -87,9 +87,10 @@ BEGIN
     -- check balance
     declare balanceCheck boolean default false;
     declare balanceAmount float DEFAULT 0;
-
+    declare minimum float DEFAULT 0;
+    select minimum_balance from account join account_type_info on account.type_id = account_type_info.type_id where account.account_no = account_number into minimum;
     select balance from account where account_no = account_number into balanceAmount;
-    if withdrawal < balanceAmount
+    if withdrawal+minimum < balanceAmount
         THEN set balanceCheck = true;
     end if;
     return balanceCheck;
@@ -123,10 +124,9 @@ DELIMITER ;
 
 call addFDInterestToAccount(90842311);
 
-DELIMITER //
 
-create event interest_calc
-on schedule at current_timestamp
-DO
-    
-DELIMITER ;
+  GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER, CREATE TEMPORARY TABLES, CREATE VIEW, EVENT, TRIGGER, SHOW VIEW, CREATE ROUTINE, ALTER ROUTINE, EXECUTE ON  `database\_proj`.* TO 'admin'@'localhost';
+
+  REVOKE ALL PRIVILEGES ON  `database_proj`.`transaction` FROM 'manager'@'localhost';  GRANT SELECT ON  `database_proj`.`transaction` TO 'manager'@'localhost';
+
+  REVOKE ALL PRIVILEGES ON `database_proj`.* FROM 'dbuser'@'localhost'; REVOKE GRANT OPTION ON `database_proj`.* FROM 'dbuser'@'localhost'; GRANT SELECT, INSERT, UPDATE ON `database_proj`.* TO 'dbuser'@'localhost';
